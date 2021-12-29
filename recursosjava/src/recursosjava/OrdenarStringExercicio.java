@@ -3,7 +3,6 @@ package recursosjava;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.function.Consumer;
 
 public class OrdenarStringExercicio {
 	public static void main(String[] args) {
@@ -13,33 +12,18 @@ public class OrdenarStringExercicio {
 		palavaras.add("Editora casa do código");
 		palavaras.add("Caelum");
 
-		Comparator<String> comparador = new ComparadorPorTamanho();
-		palavaras.sort(comparador);
-		System.out.println(palavaras);
+		// First solution
+		palavaras.sort((s1, s2) -> Integer.compare(s1.length(), s2.length()));
 
-		Consumer<String> consumidor = new ImprimeNaLinha();
-		palavaras.forEach(consumidor);
+		// Second solution
+		palavaras.sort(Comparator.comparing(s -> s.length()));
+
+		// Third solution (reference)
+		palavaras.sort(Comparator.comparing(String::length));
+		
+		palavaras.sort(String.CASE_INSENSITIVE_ORDER);
+
+		palavaras.forEach(System.out::println);
 
 	}
-}
-
-class ImprimeNaLinha implements Consumer<String> {
-
-	@Override
-	public void accept(String s) {
-		System.out.println(s);
-	}
-}
-
-class ComparadorPorTamanho implements Comparator<String> {
-
-	@Override
-	public int compare(String s1, String s2) {
-		if (s1.length() < s2.length())
-			return -1;
-		if (s1.length() > s2.length())
-			return 1;
-		return 0;
-	}
-
 }
